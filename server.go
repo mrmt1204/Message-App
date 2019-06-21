@@ -4,13 +4,13 @@ import (
 	"database/sql"
 	"flag"
 	"fmt"
-	"github.com/VG-Tech-Dojo/vg-1day-2019-05-18/morimoto/bot"
+	"github.com/mrmt1204/server-side-application/bot"
 	"log"
 	"net/http"
 
-	"github.com/VG-Tech-Dojo/vg-1day-2019-05-18/morimoto/controller"
-	"github.com/VG-Tech-Dojo/vg-1day-2019-05-18/morimoto/db"
-	"github.com/VG-Tech-Dojo/vg-1day-2019-05-18/morimoto/model"
+	"github.com/mrmt1204/server-side-application/controller"
+	"github.com/mrmt1204/server-side-application/db"
+	"github.com/mrmt1204/server-side-application/model"
 	"github.com/gin-gonic/gin"
 	_ "github.com/mattn/go-sqlite3"
 )
