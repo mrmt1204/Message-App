@@ -20,7 +20,6 @@ type Server struct {
 	db              *sql.DB
 	Engine          *gin.Engine
 	simpleBotStream chan *model.Message
-	gachaBotStream  chan *model.Message
 }
 
 // NewServer は新しいServerの構造体のポインタを返します
@@ -28,7 +27,6 @@ func NewServer() *Server {
 	return &Server{
 		Engine:          gin.Default(),
 		simpleBotStream: make(chan *model.Message, 100),
-		gachaBotStream:  make(chan *model.Message, 100),
 	}
 }
 
@@ -79,8 +77,6 @@ func (s *Server) Run(port string) {
 	simpleBot := bot.SimpleBot{}
 	go simpleBot.Run(s.simpleBotStream, fmt.Sprintf("http://0.0.0.0:%s", port))
 
-	gachaBot := bot.GachaBot{}
-	go gachaBot.Run(s.gachaBotStream, fmt.Sprintf("http://0.0.0.0:%s", port))
 	err := s.Engine.Run(fmt.Sprintf(":%s", port))
 	if err != nil {
 		return
