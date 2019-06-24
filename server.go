@@ -15,14 +15,12 @@ import (
 	_ "github.com/mattn/go-sqlite3"
 )
 
-// Server はAPIサーバーが実装された構造体です
 type Server struct {
 	db              *sql.DB
 	Engine          *gin.Engine
 	simpleBotStream chan *model.Message
 }
 
-// NewServer は新しいServerの構造体のポインタを返します
 func NewServer() *Server {
 	return &Server{
 		Engine:          gin.Default(),
@@ -30,7 +28,6 @@ func NewServer() *Server {
 	}
 }
 
-// Init はサーバーを初期化します
 func (s *Server) Init(dbconf, env string) error {
 	cs, err := db.NewConfigsFromFile(dbconf)
 	if err != nil {
@@ -43,7 +40,6 @@ func (s *Server) Init(dbconf, env string) error {
 	}
 	s.db = db
 
-	// routing
 	s.Engine.LoadHTMLGlob("./templates/*")
 
 	s.Engine.GET("/", func(c *gin.Context) {
@@ -51,7 +47,6 @@ func (s *Server) Init(dbconf, env string) error {
 	})
 	s.Engine.Static("/assets", "./assets")
 
-	// api
 	api := s.Engine.Group("/api")
 	api.GET("/ping", func(c *gin.Context) {
 		c.String(http.StatusOK, "pong")
@@ -66,14 +61,11 @@ func (s *Server) Init(dbconf, env string) error {
 	return nil
 }
 
-// Close はDBとの接続を閉じてサーバーを終了します
 func (s *Server) Close() error {
 	return s.db.Close()
 }
 
-// Run はサーバーを起動します
 func (s *Server) Run(port string) {
-	// simple bot
 	simpleBot := bot.SimpleBot{}
 	go simpleBot.Run(s.simpleBotStream, fmt.Sprintf("http://0.0.0.0:%s", port))
 
