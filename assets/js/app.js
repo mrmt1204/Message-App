@@ -7,7 +7,6 @@
   };
 
   Vue.component('message', {
-    // Tutorial 1-1. ユーザー名を表示しよう
     props: ['id', 'body', 'username', 'removeMessage', 'updateMessage'],
     data() {
       return {
@@ -15,7 +14,6 @@
         editedBody: null,
       }
     },
-    // Tutorial 1-1. ユーザー名を表示しよう
     template: `
     <div class="message">
       <div v-if="editing">

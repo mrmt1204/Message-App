@@ -10,14 +10,12 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// Message is controller for requests to messages
 type Message struct {
 	DB              *sql.DB
 	SimpleBotStream chan *model.Message
 	GachaBotStream  chan *model.Message
 }
 
-// All は全てのメッセージを取得してJSONで返します
 func (m *Message) All(c *gin.Context) {
 	msgs, err := model.MessagesAll(m.DB)
 	if err != nil {
@@ -37,7 +35,6 @@ func (m *Message) All(c *gin.Context) {
 	})
 }
 
-// GetByID はパラメーターで受け取ったidのメッセージを取得してJSONで返します
 func (m *Message) GetByID(c *gin.Context) {
 	msg, err := model.MessageByID(m.DB, c.Param("id"))
 
@@ -58,7 +55,6 @@ func (m *Message) GetByID(c *gin.Context) {
 	})
 }
 
-// Create は新しいメッセージ保存し、作成したメッセージをJSONで返します
 func (m *Message) Create(c *gin.Context) {
 	var msg model.Message
 
@@ -81,7 +77,6 @@ func (m *Message) Create(c *gin.Context) {
 		return
 	}
 
-	// bot対応
 	m.SimpleBotStream <- inserted
 	m.GachaBotStream <- inserted
 
@@ -91,10 +86,7 @@ func (m *Message) Create(c *gin.Context) {
 	})
 }
 
-// UpdateByID は...
 func (m *Message) UpdateByID(c *gin.Context) {
-	// Mission 1-1. メッセージを編集しよう
-	//
 
 	var msg model.Message
 	if c.Request.ContentLength == 0 {
@@ -129,10 +121,7 @@ func (m *Message) UpdateByID(c *gin.Context) {
 	})
 }
 
-// DeleteByID は...
 func (m *Message) DeleteByID(c *gin.Context) {
-	// Mission 1-2. メッセージを削除しよう
-	// ...
 	msg, err := model.MessageByID(m.DB, c.Param("id"))
 
 	switch {
