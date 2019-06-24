@@ -4,7 +4,6 @@ import (
 	"database/sql"
 	"flag"
 	"fmt"
-	"github.com/mrmt1204/server-side-application/bot"
 	"log"
 	"net/http"
 
@@ -52,12 +51,11 @@ func (s *Server) Init(dbconf, env string) error {
 		c.String(http.StatusOK, "pong")
 	})
 
-	mctr := &controller.Message{DB: db, SimpleBotStream: s.simpleBotStream, GachaBotStream: s.gachaBotStream}
+	mctr := &controller.Message{DB: db, SimpleBotStream: s.simpleBotStream}
 	api.GET("/messages", mctr.All)
 	api.GET("/messages/:id", mctr.GetByID)
 	api.POST("/messages", mctr.Create)
-	api.PUT("/messages/:id", mctr.UpdateByID)
-
+    api.POST("/messages/:id", mctr.Create)
 	return nil
 }
 

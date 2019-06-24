@@ -70,9 +70,5 @@ BODY :=
 curl_message_post:
 	curl -i -X POST $(HOST)/api/messages -d '{"BODY": "$(BODY)"}'
 
-curl_message_put:
-	curl -i -X PUT $(HOST)/api/messages/$(ID) -d '{"BODY": "$(BODY)"}'
 
-curl_message_delete:
-	curl -i -X DELETE $(HOST)/api/messages/$(ID)
 

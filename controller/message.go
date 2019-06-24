@@ -5,15 +5,13 @@ import (
 	"errors"
 	"net/http"
 
-	"github.com/mrmt1204/server-side-application/httputil"
-	"github.com/mrmt1204/server-side-application/model"
+	"github.com/mrmt1204/Message-App/httputil"
+	"github.com/mrmt1204/Message-App/model"
 	"github.com/gin-gonic/gin"
 )
 
 type Message struct {
 	DB              *sql.DB
-	SimpleBotStream chan *model.Message
-	GachaBotStream  chan *model.Message
 }
 
 func (m *Message) All(c *gin.Context) {
@@ -77,8 +75,6 @@ func (m *Message) Create(c *gin.Context) {
 		return
 	}
 
-	m.SimpleBotStream <- inserted
-	m.GachaBotStream <- inserted
 
 	c.JSON(http.StatusCreated, gin.H{
 		"result": inserted,
@@ -121,28 +117,3 @@ func (m *Message) UpdateByID(c *gin.Context) {
 	})
 }
 
-func (m *Message) DeleteByID(c *gin.Context) {
-	msg, err := model.MessageByID(m.DB, c.Param("id"))
-
-	switch {
-	case err == sql.ErrNoRows:
-		resp := httputil.NewErrorResponse(err)
-		c.JSON(http.StatusNotFound, resp)
-		return
-	case err != nil:
-		resp := httputil.NewErrorResponse(err)
-		c.JSON(http.StatusInternalServerError, resp)
-		return
-	}
-	err = msg.Delete(m.DB)
-	if err != nil {
-		resp := httputil.NewErrorResponse(err)
-		c.JSON(http.StatusInternalServerError, resp)
-		return
-	}
-
-	c.JSON(http.StatusOK, gin.H{
-		"result": nil,
-		"error":  nil,
-	})
-}
