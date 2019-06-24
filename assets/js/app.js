@@ -7,7 +7,7 @@
   };
 
   Vue.component('message', {
-    props: ['id', 'body', 'username', 'removeMessage', 'updateMessage'],
+    props: ['id', 'body', 'username',],
     data() {
       return {
         editing: false,
@@ -87,41 +87,6 @@
             console.log(error);
           });
       },
-      removeMessage(id) {
-        return fetch(`/api/messages/${id}`, {
-          method: 'DELETE'
-        })
-        .then(response => response.json())
-        .then(response => {
-          if (response.error) {
-            alert(response.error.message);
-            return;
-          }
-          this.messages = this.messages.filter(m => {
-            return m.id !== id
-          })
-        })
-      },
-      updateMessage(id, updatedMessage) {
-        return fetch(`/api/messages/${id}`, {
-          method: 'PUT',
-          body: JSON.stringify(updatedMessage),
-        })
-        .then(response => response.json())
-        .then(response => {
-          if (response.error) {
-            alert(response.error.message);
-            return;
-          }
-          const index = this.messages.findIndex(m => {
-            return m.id === id;
-          });
-          Vue.set(this.messages, index, response.result);
-        });
-      },
-      clearMessage() {
-        this.newMessage = new Message();
-      }
     }
   });
 })();
