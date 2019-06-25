@@ -86,7 +86,7 @@ func (m *Message) UpdateByID(c *gin.Context) {
 
 	var msg model.Message
 	if c.Request.ContentLength == 0 {
-		resp := httputil.NewErrorResponse(errors.New("body is missin    g"))
+		resp := httputil.NewErrorResponse(errors.New("body is missing"))
 		c.JSON(http.StatusBadRequest, resp)
 		return
 	}
