@@ -7,9 +7,9 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/mrmt1204/server-side-application/controller"
-	"github.com/mrmt1204/server-side-application/db"
-	"github.com/mrmt1204/server-side-application/model"
+	"github.com/mrmt1204/Message-App/controller"
+	"github.com/mrmt1204/Message-App/db"
+	"github.com/mrmt1204/Message-App/model"
 	"github.com/gin-gonic/gin"
 	_ "github.com/mattn/go-sqlite3"
 )
